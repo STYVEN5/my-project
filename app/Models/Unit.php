@@ -7,19 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class User extends Model
+class Unit extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'email', 'role'];
+    protected $fillable = ['name'];
 
-    public function units(): BelongsToMany
+    public function users(): BelongsToMany
     {
-        return $this->belongsToMany(Unit::class, 'user_units');
+        return $this->belongsToMany(User::class, 'user_units');
     }
 
     public function sites(): HasMany
     {
-        return $this->hasMany(Site::class, 'responsible_user_id');
+        return $this->hasMany(Site::class);
     }
 }
