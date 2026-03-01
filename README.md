@@ -15,7 +15,7 @@
 
 ## Участники команды
 
-- **Тимлид**: [@Laggon](https://github.com/Laggon)
+- **Тимлид**: Сальков Михаил [@Laggon](https://github.com/Laggon)
 - **Разработчик**: Колесник Павел [@STYVEN5](https://github.com/STYVEN5)
 - **Разработчик**: Волжин Никита [@kpzxpf](https://github.com/kpzxpf) 
 
