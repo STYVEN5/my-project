@@ -1,32 +1,13 @@
-# Учёт сайтов на хостингах
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-[![PHP](https://img.shields.io/badge/PHP-8.3%2B-777BB4?logo=php)](https://php.net)
-[![Laravel](https://img.shields.io/badge/Laravel-11-FF2D20?logo=laravel)](https://laravel.com)
-[![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?logo=mysql)](https://mysql.com)
-
-## Описание проекта
-
-Веб-приложение для учёта сайтов компании. Позволяет:
-- Хранить информацию о всех сайтах
-- Отслеживать хостинг/сервер для каждого сайта
-- Привязывать сайты к подразделениям
-- Назначать ответственных
-- Быстрый поиск и фильтрация
-
-## Участники команды
-
-- **Тимлид**: [@Laggon](https://github.com/Laggon)
-- **Разработчик**: Колесник Павел [@STYVEN5](https://github.com/STYVEN5)
-- **Разработчик**: Волжин Никита [@kpzxpf](https://github.com/kpzxpf) 
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
 
-## Стек технологий
-
-- **Backend**: PHP 8.3+, Laravel 11
-- **Database**: MySQL / MariaDB
-- **Frontend**: Blade + Bootstrap
-- **Testing**: Браузерные тесты (PHP/Python)
-- **Version Control**: Git, GitHub
 
 ## Установка проекта
 
@@ -46,3 +27,11 @@ php artisan key:generate
 
 # 5. Запустить сервер
 php artisan serve
+
+ команды для сборки фроненда
+
+npm install
+
+npm run build
+
+npm run dev
