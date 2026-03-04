@@ -3,26 +3,44 @@
 namespace App\Http\Controllers;
 
 use App\Models\Unit;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class UnitController extends Controller
 {
-    public function store(Request $request): JsonResponse
+    public function index(): View
+    {
+        return view('units.index', ['units' => Unit::all()]);
+    }
+
+    public function create(): View
+    {
+        return view('units.create');
+    }
+
+    public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
             'name' => 'required|string|max:150|unique:units',
         ]);
 
-        return response()->json(Unit::create($data), 201);
+        Unit::create($data);
+
+        return redirect()->route('units.index');
     }
 
-    public function show(Unit $unit): JsonResponse
+    public function show(Unit $unit): View
     {
-        return response()->json($unit->load('users', 'sites'));
+        return view('units.show', ['unit' => $unit->load('users', 'sites')]);
     }
 
-    public function update(Request $request, Unit $unit): JsonResponse
+    public function edit(Unit $unit): View
+    {
+        return view('units.edit', ['unit' => $unit]);
+    }
+
+    public function update(Request $request, Unit $unit): RedirectResponse
     {
         $data = $request->validate([
             'name' => 'required|string|max:150|unique:units,name,' . $unit->id,
@@ -30,13 +48,13 @@ class UnitController extends Controller
 
         $unit->update($data);
 
-        return response()->json($unit);
+        return redirect()->route('units.index');
     }
 
-    public function destroy(Unit $unit): JsonResponse
+    public function destroy(Unit $unit): RedirectResponse
     {
         $unit->delete();
 
-        return response()->json(null, 204);
+        return redirect()->route('units.index');
     }
 }

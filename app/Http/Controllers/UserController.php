@@ -3,12 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    public function store(Request $request): JsonResponse
+    public function index(): View
+    {
+        return view('users.index', ['users' => User::all()]);
+    }
+
+    public function create(): View
+    {
+        return view('users.create');
+    }
+
+    public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
             'name'  => 'required|string|max:150',
@@ -16,15 +27,22 @@ class UserController extends Controller
             'role'  => 'required|string|max:50',
         ]);
 
-        return response()->json(User::create($data), 201);
+        User::create($data);
+
+        return redirect()->route('users.index');
     }
 
-    public function show(User $user): JsonResponse
+    public function show(User $user): View
     {
-        return response()->json($user->load('units'));
+        return view('users.show', ['user' => $user->load('units')]);
     }
 
-    public function update(Request $request, User $user): JsonResponse
+    public function edit(User $user): View
+    {
+        return view('users.edit', ['user' => $user]);
+    }
+
+    public function update(Request $request, User $user): RedirectResponse
     {
         $data = $request->validate([
             'name'  => 'sometimes|string|max:150',
@@ -34,13 +52,13 @@ class UserController extends Controller
 
         $user->update($data);
 
-        return response()->json($user);
+        return redirect()->route('users.index');
     }
 
-    public function destroy(User $user): JsonResponse
+    public function destroy(User $user): RedirectResponse
     {
         $user->delete();
 
-        return response()->json(null, 204);
+        return redirect()->route('users.index');
     }
 }

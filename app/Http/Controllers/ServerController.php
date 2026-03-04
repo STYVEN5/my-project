@@ -3,12 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Server;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class ServerController extends Controller
 {
-    public function store(Request $request): JsonResponse
+    public function index(): View
+    {
+        return view('servers.index', ['servers' => Server::all()]);
+    }
+
+    public function create(): View
+    {
+        return view('servers.create');
+    }
+
+    public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
             'name'        => 'required|string|max:150',
@@ -24,15 +35,22 @@ class ServerController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        return response()->json(Server::create($data), 201);
+        Server::create($data);
+
+        return redirect()->route('servers.index');
     }
 
-    public function show(Server $server): JsonResponse
+    public function show(Server $server): View
     {
-        return response()->json($server);
+        return view('servers.show', ['server' => $server]);
     }
 
-    public function update(Request $request, Server $server): JsonResponse
+    public function edit(Server $server): View
+    {
+        return view('servers.edit', ['server' => $server]);
+    }
+
+    public function update(Request $request, Server $server): RedirectResponse
     {
         $data = $request->validate([
             'name'        => 'sometimes|string|max:150',
@@ -50,13 +68,13 @@ class ServerController extends Controller
 
         $server->update($data);
 
-        return response()->json($server);
+        return redirect()->route('servers.index');
     }
 
-    public function destroy(Server $server): JsonResponse
+    public function destroy(Server $server): RedirectResponse
     {
         $server->delete();
 
-        return response()->json(null, 204);
+        return redirect()->route('servers.index');
     }
 }
