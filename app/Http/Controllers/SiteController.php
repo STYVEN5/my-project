@@ -8,6 +8,22 @@ use Illuminate\Http\Request;
 
 class SiteController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        return view('sites.index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return view('sites.create');
+    }
+
     public function store(Request $request): JsonResponse
     {
         $data = $request->validate([
@@ -40,6 +56,14 @@ class SiteController extends Controller
         return response()->json(
             $site->load(['type', 'unit', 'responsibleUser', 'webServer', 'dbServer', 'technologies'])
         );
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        return view('sites.edit', compact('id'));
     }
 
     public function update(Request $request, Site $site): JsonResponse
