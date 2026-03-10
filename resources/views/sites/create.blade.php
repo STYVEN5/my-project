@@ -129,7 +129,7 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Технологии</label>
-                        <div class="border rounded p-2" style="max-height: 150px; overflow-y: auto;">
+                        <div class="border rounded p-2 scrollable-list">
                             @foreach ($technologies as $tech)
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox"
