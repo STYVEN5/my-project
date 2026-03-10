@@ -15,7 +15,7 @@
             <h5 class="mb-0">Редактирование сервера #{{ $server->id }}</h5>
         </div>
         <div class="card-body">
-            <form action="{{ route('servers.update', $server) }}" method="POST">
+            <form id="update-form" action="{{ route('servers.update', $server) }}" method="POST">
                 @csrf
                 @method('PUT')
 
@@ -104,18 +104,18 @@
                     @error('description')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
 
-                <div class="d-flex justify-content-between">
-                    <form action="{{ route('servers.destroy', $server) }}" method="POST" onsubmit="return confirm('Удалить сервер?')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-outline-danger">Удалить сервер</button>
-                    </form>
-                    <div>
-                        <a href="{{ route('servers.index') }}" class="btn btn-secondary me-2">Отмена</a>
-                        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
-                    </div>
-                </div>
             </form>
+            <div class="d-flex justify-content-between mt-3">
+                <form action="{{ route('servers.destroy', $server) }}" method="POST" onsubmit="return confirm('Удалить сервер?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-outline-danger">Удалить сервер</button>
+                </form>
+                <div>
+                    <a href="{{ route('servers.index') }}" class="btn btn-secondary me-2">Отмена</a>
+                    <button type="submit" form="update-form" class="btn btn-primary">Сохранить изменения</button>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
