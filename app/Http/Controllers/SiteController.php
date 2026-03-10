@@ -2,29 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Server;
 use App\Models\Site;
-use Illuminate\Http\JsonResponse;
+use App\Models\SiteType;
+use App\Models\Technology;
+use App\Models\Unit;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class SiteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(): View
     {
-        return view('sites.index');
+        return view('sites.index', [
+            'sites' => Site::with(['type', 'unit', 'responsibleUser', 'webServer', 'dbServer'])->get(),
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function create(): View
     {
-        return view('sites.create');
+        return view('sites.create', $this->formData());
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
             'name'                => 'required|string|max:150',
@@ -48,25 +50,22 @@ class SiteController extends Controller
             $site->technologies()->sync($data['technology_ids']);
         }
 
-        return response()->json($site->load('technologies'), 201);
+        return redirect()->route('sites.index');
     }
 
-    public function show(Site $site): JsonResponse
+    public function show(Site $site): View
     {
-        return response()->json(
-            $site->load(['type', 'unit', 'responsibleUser', 'webServer', 'dbServer', 'technologies'])
-        );
+        return view('sites.show', [
+            'site' => $site->load(['type', 'unit', 'responsibleUser', 'webServer', 'dbServer', 'technologies']),
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Site $site): View
     {
-        return view('sites.edit', compact('id'));
+        return view('sites.edit', array_merge(['site' => $site], $this->formData()));
     }
 
-    public function update(Request $request, Site $site): JsonResponse
+    public function update(Request $request, Site $site): RedirectResponse
     {
         $data = $request->validate([
             'name'                => 'sometimes|string|max:150',
@@ -90,13 +89,24 @@ class SiteController extends Controller
             $site->technologies()->sync($data['technology_ids'] ?? []);
         }
 
-        return response()->json($site->load('technologies'));
+        return redirect()->route('sites.index');
     }
 
-    public function destroy(Site $site): JsonResponse
+    public function destroy(Site $site): RedirectResponse
     {
         $site->delete();
 
-        return response()->json(null, 204);
+        return redirect()->route('sites.index');
+    }
+
+    private function formData(): array
+    {
+        return [
+            'siteTypes'    => SiteType::all(),
+            'units'        => Unit::all(),
+            'users'        => User::all(),
+            'servers'      => Server::all(),
+            'technologies' => Technology::all(),
+        ];
     }
 }

@@ -3,26 +3,44 @@
 namespace App\Http\Controllers;
 
 use App\Models\SiteType;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class SiteTypeController extends Controller
 {
-    public function store(Request $request): JsonResponse
+    public function index(): View
+    {
+        return view('site-types.index', ['siteTypes' => SiteType::all()]);
+    }
+
+    public function create(): View
+    {
+        return view('site-types.create');
+    }
+
+    public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
             'name' => 'required|string|max:100|unique:site_types',
         ]);
 
-        return response()->json(SiteType::create($data), 201);
+        SiteType::create($data);
+
+        return redirect()->route('site-types.index');
     }
 
-    public function show(SiteType $siteType): JsonResponse
+    public function show(SiteType $siteType): View
     {
-        return response()->json($siteType);
+        return view('site-types.show', ['siteType' => $siteType]);
     }
 
-    public function update(Request $request, SiteType $siteType): JsonResponse
+    public function edit(SiteType $siteType): View
+    {
+        return view('site-types.edit', ['siteType' => $siteType]);
+    }
+
+    public function update(Request $request, SiteType $siteType): RedirectResponse
     {
         $data = $request->validate([
             'name' => 'required|string|max:100|unique:site_types,name,' . $siteType->id,
@@ -30,13 +48,13 @@ class SiteTypeController extends Controller
 
         $siteType->update($data);
 
-        return response()->json($siteType);
+        return redirect()->route('site-types.index');
     }
 
-    public function destroy(SiteType $siteType): JsonResponse
+    public function destroy(SiteType $siteType): RedirectResponse
     {
         $siteType->delete();
 
-        return response()->json(null, 204);
+        return redirect()->route('site-types.index');
     }
 }
