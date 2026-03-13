@@ -16,10 +16,42 @@ use Illuminate\View\View;
 
 class SiteController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
+        $query = Site::with(['type', 'unit', 'responsibleUser', 'webServer', 'dbServer']);
+
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('url', 'like', "%{$search}%");
+            });
+        }
+
+        if ($unitId = $request->input('unit_id')) {
+            $query->where('unit_id', $unitId);
+        }
+
+        if ($userId = $request->input('responsible_user_id')) {
+            $query->where('responsible_user_id', $userId);
+        }
+
+        if ($serverId = $request->input('web_server_id')) {
+            $query->where('web_server_id', $serverId);
+        }
+
+        if ($typeId = $request->input('type_id')) {
+            $query->where('type_id', $typeId);
+        }
+
+        $sites = $query->paginate(20)->withQueryString();
+
         return view('sites.index', [
-            'sites' => Site::with(['type', 'unit', 'responsibleUser', 'webServer', 'dbServer'])->paginate(20),
+            'sites'     => $sites,
+            'units'     => Unit::orderBy('name')->get(),
+            'users'     => User::orderBy('name')->get(),
+            'servers'   => Server::where('type', 'WEB')->orderBy('name')->get(),
+            'siteTypes' => SiteType::orderBy('name')->get(),
+            'filters'   => $request->only(['search', 'unit_id', 'responsible_user_id', 'web_server_id', 'type_id']),
         ]);
     }
 

@@ -11,9 +11,35 @@ use Illuminate\View\View;
 
 class ServerController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        return view('servers.index', ['servers' => Server::paginate(20)]);
+        $query = Server::query();
+
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('ip_address', 'like', "%{$search}%");
+            });
+        }
+
+        if ($type = $request->input('type')) {
+            $query->where('type', $type);
+        }
+
+        if ($status = $request->input('status')) {
+            $query->where('status', $status);
+        }
+
+        if ($provider = $request->input('provider')) {
+            $query->where('provider', 'like', "%{$provider}%");
+        }
+
+        $servers = $query->paginate(20)->withQueryString();
+
+        return view('servers.index', [
+            'servers' => $servers,
+            'filters' => $request->only(['search', 'type', 'status', 'provider']),
+        ]);
     }
 
     public function pdf(): Response
