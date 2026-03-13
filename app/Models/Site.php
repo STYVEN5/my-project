@@ -16,6 +16,7 @@ class Site extends Model
         'web_server_id', 'db_server_id',
         'server_username', 'server_path',
         'database_name', 'database_username',
+        'memo',
     ];
 
     public function type(): BelongsTo

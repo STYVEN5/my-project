@@ -143,6 +143,15 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label for="memo" class="form-label">Служебная записка</label>
+                        <textarea class="form-control @error('memo') is-invalid @enderror"
+                                  id="memo" name="memo" rows="4">{{ old('memo') }}</textarea>
+                        @error('memo')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                </div>
+
                 <div class="d-flex justify-content-end">
                     <a href="{{ route('sites.index') }}" class="btn btn-secondary me-2">Отмена</a>
                     <button type="submit" class="btn btn-primary">Сохранить сайт</button>
