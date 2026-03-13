@@ -1,3 +1,4 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
 @import 'tailwindcss';
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
@@ -8,4 +9,17 @@
 @theme {
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+.card-max-w-500 {
+    max-width: 500px;
+}
+
+.card-max-w-600 {
+    max-width: 600px;
+}
+
+.scrollable-list {
+    max-height: 150px;
+    overflow-y: auto;
 }
