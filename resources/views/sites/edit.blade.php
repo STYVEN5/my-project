@@ -15,7 +15,7 @@
             <h5 class="mb-0">Редактирование сайта #{{ $site->id }}</h5>
         </div>
         <div class="card-body">
-            <form action="{{ route('sites.update', $site) }}" method="POST">
+            <form id="update-form" action="{{ route('sites.update', $site) }}" method="POST">
                 @csrf
                 @method('PUT')
 
@@ -147,18 +147,18 @@
                     </div>
                 </div>
 
-                <div class="d-flex justify-content-between">
-                    <form action="{{ route('sites.destroy', $site) }}" method="POST" onsubmit="return confirm('Удалить сайт?')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-outline-danger">Удалить сайт</button>
-                    </form>
-                    <div>
-                        <a href="{{ route('sites.index') }}" class="btn btn-secondary me-2">Отмена</a>
-                        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
-                    </div>
-                </div>
             </form>
+            <div class="d-flex justify-content-between mt-3">
+                <form action="{{ route('sites.destroy', $site) }}" method="POST" onsubmit="return confirm('Удалить сайт?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-outline-danger">Удалить сайт</button>
+                </form>
+                <div>
+                    <a href="{{ route('sites.index') }}" class="btn btn-secondary me-2">Отмена</a>
+                    <button type="submit" form="update-form" class="btn btn-primary">Сохранить изменения</button>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

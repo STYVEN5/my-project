@@ -8,7 +8,7 @@
 
     <div class="card shadow-sm" style="max-width: 600px;">
         <div class="card-body">
-            <form action="{{ route('users.update', $user) }}" method="POST">
+            <form id="update-form" action="{{ route('users.update', $user) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="mb-3">
@@ -29,18 +29,18 @@
                            id="role" name="role" value="{{ old('role', $user->role) }}" required>
                     @error('role')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
-                <div class="d-flex justify-content-between">
-                    <form action="{{ route('users.destroy', $user) }}" method="POST" onsubmit="return confirm('Удалить сотрудника?')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-outline-danger">Удалить</button>
-                    </form>
-                    <div>
-                        <a href="{{ route('users.index') }}" class="btn btn-secondary me-2">Отмена</a>
-                        <button type="submit" class="btn btn-primary">Сохранить</button>
-                    </div>
-                </div>
             </form>
+            <div class="d-flex justify-content-between mt-3">
+                <form action="{{ route('users.destroy', $user) }}" method="POST" onsubmit="return confirm('Удалить сотрудника?')">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-outline-danger">Удалить</button>
+                </form>
+                <div>
+                    <a href="{{ route('users.index') }}" class="btn btn-secondary me-2">Отмена</a>
+                    <button type="submit" form="update-form" class="btn btn-primary">Сохранить</button>
+                </div>
+            </div>
         </div>
     </div>
 @endsection
