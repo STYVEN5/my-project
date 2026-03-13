@@ -12,7 +12,7 @@ class Site extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'url', 'type_id', 'unit_id', 'responsible_user_id',
+        'name', 'url', 'description', 'type_id', 'unit_id', 'responsible_user_id',
         'web_server_id', 'db_server_id',
         'server_username', 'server_path',
         'database_name', 'database_username',
