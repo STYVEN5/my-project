@@ -17,7 +17,7 @@ class SiteController extends Controller
     public function index(): View
     {
         return view('sites.index', [
-            'sites' => Site::with(['type', 'unit', 'responsibleUser', 'webServer', 'dbServer'])->get(),
+            'sites' => Site::with(['type', 'unit', 'responsibleUser', 'webServer', 'dbServer'])->paginate(20),
         ]);
     }
 

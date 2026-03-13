@@ -11,7 +11,7 @@ class TechnologyController extends Controller
 {
     public function index(): View
     {
-        return view('technologies.index', ['technologies' => Technology::all()]);
+        return view('technologies.index', ['technologies' => Technology::paginate(20)]);
     }
 
     public function create(): View

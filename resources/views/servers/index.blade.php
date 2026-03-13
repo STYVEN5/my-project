@@ -67,4 +67,8 @@
             </div>
         </div>
     </div>
+
+    <div class="mt-3">
+        {{ $servers->links() }}
+    </div>
 @endsection
