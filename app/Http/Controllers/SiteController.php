@@ -74,6 +74,7 @@ class SiteController extends Controller
         $data = $request->validate([
             'name'                => 'required|string|max:150',
             'url'                 => 'required|url|max:255|unique:sites',
+            'description'         => 'nullable|string',
             'type_id'             => 'nullable|exists:site_types,id',
             'unit_id'             => 'nullable|exists:units,id',
             'responsible_user_id' => 'nullable|exists:users,id',
@@ -113,6 +114,7 @@ class SiteController extends Controller
         $data = $request->validate([
             'name'                => 'sometimes|string|max:150',
             'url'                 => 'sometimes|url|max:255|unique:sites,url,' . $site->id,
+            'description'         => 'nullable|string',
             'type_id'             => 'nullable|exists:site_types,id',
             'unit_id'             => 'nullable|exists:units,id',
             'responsible_user_id' => 'nullable|exists:users,id',
