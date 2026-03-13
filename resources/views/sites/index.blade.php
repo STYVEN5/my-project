@@ -8,6 +8,7 @@
             <h1>Список сайтов</h1>
         </div>
         <div class="col-md-6 text-end">
+            <a href="{{ route('sites.pdf') }}" class="btn btn-outline-secondary me-2">Скачать PDF</a>
             <a href="{{ route('sites.create') }}" class="btn btn-primary">Добавить сайт</a>
         </div>
     </div>

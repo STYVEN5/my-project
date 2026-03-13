@@ -8,6 +8,7 @@
             <h1>Серверы</h1>
         </div>
         <div class="col-md-6 text-end">
+            <a href="{{ route('servers.pdf') }}" class="btn btn-outline-secondary me-2">Скачать PDF</a>
             <a href="{{ route('servers.create') }}" class="btn btn-primary">Добавить сервер</a>
         </div>
     </div>
