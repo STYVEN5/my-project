@@ -45,4 +45,8 @@
             </table>
         </div>
     </div>
+
+    <div class="mt-3">
+        {{ $units->links() }}
+    </div>
 @endsection
