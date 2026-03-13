@@ -11,7 +11,7 @@ class UnitController extends Controller
 {
     public function index(): View
     {
-        return view('units.index', ['units' => Unit::all()]);
+        return view('units.index', ['units' => Unit::paginate(20)]);
     }
 
     public function create(): View

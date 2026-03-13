@@ -11,7 +11,7 @@ class ServerController extends Controller
 {
     public function index(): View
     {
-        return view('servers.index', ['servers' => Server::all()]);
+        return view('servers.index', ['servers' => Server::paginate(20)]);
     }
 
     public function create(): View
