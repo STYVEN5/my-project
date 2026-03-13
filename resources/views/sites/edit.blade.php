@@ -35,6 +35,15 @@
                 </div>
 
                 <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label for="description" class="form-label">Описание</label>
+                        <textarea class="form-control @error('description') is-invalid @enderror"
+                                  id="description" name="description" rows="3">{{ old('description', $site->description) }}</textarea>
+                        @error('description')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                </div>
+
+                <div class="row">
                     <div class="col-md-6 mb-3">
                         <label for="type_id" class="form-label">Тип сайта</label>
                         <select class="form-select @error('type_id') is-invalid @enderror" id="type_id" name="type_id">
@@ -144,6 +153,15 @@
                                 </div>
                             @endforeach
                         </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label for="memo" class="form-label">Служебная записка</label>
+                        <textarea class="form-control @error('memo') is-invalid @enderror"
+                                  id="memo" name="memo" rows="4">{{ old('memo', $site->memo) }}</textarea>
+                        @error('memo')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                 </div>
 

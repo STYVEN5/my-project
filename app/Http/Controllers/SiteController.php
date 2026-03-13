@@ -8,17 +8,60 @@ use App\Models\SiteType;
 use App\Models\Technology;
 use App\Models\Unit;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 class SiteController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
+        $query = Site::with(['type', 'unit', 'responsibleUser', 'webServer', 'dbServer']);
+
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('url', 'like', "%{$search}%");
+            });
+        }
+
+        if ($unitId = $request->input('unit_id')) {
+            $query->where('unit_id', $unitId);
+        }
+
+        if ($userId = $request->input('responsible_user_id')) {
+            $query->where('responsible_user_id', $userId);
+        }
+
+        if ($serverId = $request->input('web_server_id')) {
+            $query->where('web_server_id', $serverId);
+        }
+
+        if ($typeId = $request->input('type_id')) {
+            $query->where('type_id', $typeId);
+        }
+
+        $sites = $query->paginate(20)->withQueryString();
+
         return view('sites.index', [
-            'sites' => Site::with(['type', 'unit', 'responsibleUser', 'webServer', 'dbServer'])->paginate(20),
+            'sites'     => $sites,
+            'units'     => Unit::orderBy('name')->get(),
+            'users'     => User::orderBy('name')->get(),
+            'servers'   => Server::where('type', 'WEB')->orderBy('name')->get(),
+            'siteTypes' => SiteType::orderBy('name')->get(),
+            'filters'   => $request->only(['search', 'unit_id', 'responsible_user_id', 'web_server_id', 'type_id']),
         ]);
+    }
+
+    public function pdf(): Response
+    {
+        $sites = Site::with(['type', 'unit', 'responsibleUser', 'webServer', 'dbServer'])->get();
+
+        return Pdf::loadView('pdf.sites', compact('sites'))
+            ->setPaper('a4', 'landscape')
+            ->download('sites_' . now()->format('Y-m-d') . '.pdf');
     }
 
     public function create(): View
@@ -31,6 +74,7 @@ class SiteController extends Controller
         $data = $request->validate([
             'name'                => 'required|string|max:150',
             'url'                 => 'required|url|max:255|unique:sites',
+            'description'         => 'nullable|string',
             'type_id'             => 'nullable|exists:site_types,id',
             'unit_id'             => 'nullable|exists:units,id',
             'responsible_user_id' => 'nullable|exists:users,id',
@@ -40,6 +84,7 @@ class SiteController extends Controller
             'server_path'         => 'nullable|string|max:255',
             'database_name'       => 'nullable|string|max:100',
             'database_username'   => 'nullable|string|max:100',
+            'memo'                => 'nullable|string',
             'technology_ids'      => 'nullable|array',
             'technology_ids.*'    => 'exists:technologies,id',
         ]);
@@ -70,6 +115,7 @@ class SiteController extends Controller
         $data = $request->validate([
             'name'                => 'sometimes|string|max:150',
             'url'                 => 'sometimes|url|max:255|unique:sites,url,' . $site->id,
+            'description'         => 'nullable|string',
             'type_id'             => 'nullable|exists:site_types,id',
             'unit_id'             => 'nullable|exists:units,id',
             'responsible_user_id' => 'nullable|exists:users,id',
@@ -79,6 +125,7 @@ class SiteController extends Controller
             'server_path'         => 'nullable|string|max:255',
             'database_name'       => 'nullable|string|max:100',
             'database_username'   => 'nullable|string|max:100',
+            'memo'                => 'nullable|string',
             'technology_ids'      => 'nullable|array',
             'technology_ids.*'    => 'exists:technologies,id',
         ]);
