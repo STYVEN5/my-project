@@ -20,7 +20,7 @@
                         <th>ID</th>
                         <th>Имя</th>
                         <th>Email</th>
-                        <th>Роль</th>
+                        <th>Должность</th>
                         <th class="text-end">Действия</th>
                     </tr>
                 </thead>
