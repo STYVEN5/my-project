@@ -10,19 +10,14 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">Учёт сайтов</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{ route('sites.index') }}">Сайты</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('servers.index') }}">Серверы</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('units.index') }}">Подразделения</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('technologies.index') }}">Технологии</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('site-types.index') }}">Типы сайтов</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('users.index') }}">Сотрудники</a></li>
-                </ul>
-            </div>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="{{ route('sites.index') }}">Сайты</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('servers.index') }}">Серверы</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('units.index') }}">Подразделения</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('technologies.index') }}">Технологии</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('site-types.index') }}">Типы сайтов</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ route('users.index') }}">Сотрудники</a></li>
+            </ul>
         </div>
     </nav>
 
