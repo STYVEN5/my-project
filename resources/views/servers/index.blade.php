@@ -12,6 +12,52 @@
         </div>
     </div>
 
+    {{-- Фильтры --}}
+    <div class="card shadow-sm mb-3">
+        <div class="card-body">
+            <form method="GET" action="{{ route('servers.index') }}" class="row g-2 align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label small mb-1">Поиск (название / IP)</label>
+                    <input type="text" name="search" class="form-control form-control-sm"
+                           placeholder="Название или IP-адрес"
+                           value="{{ $filters['search'] ?? '' }}">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label small mb-1">Тип</label>
+                    <select name="type" class="form-select form-select-sm">
+                        <option value="">Все</option>
+                        <option value="WEB"      @selected(($filters['type'] ?? '') === 'WEB')>WEB</option>
+                        <option value="DATABASE" @selected(($filters['type'] ?? '') === 'DATABASE')>DATABASE</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label small mb-1">Статус</label>
+                    <select name="status" class="form-select form-select-sm">
+                        <option value="">Все</option>
+                        <option value="ACTIVE"          @selected(($filters['status'] ?? '') === 'ACTIVE')>Активен</option>
+                        <option value="MAINTENANCE"     @selected(($filters['status'] ?? '') === 'MAINTENANCE')>Обслуживание</option>
+                        <option value="DECOMMISSIONED"  @selected(($filters['status'] ?? '') === 'DECOMMISSIONED')>Выведен</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label small mb-1">Провайдер</label>
+                    <input type="text" name="provider" class="form-control form-control-sm"
+                           placeholder="Название провайдера"
+                           value="{{ $filters['provider'] ?? '' }}">
+                </div>
+                <div class="col-md-2 d-flex gap-1">
+                    <button type="submit" class="btn btn-sm btn-primary w-100">Найти</button>
+                </div>
+                @if (array_filter($filters))
+                    <div class="col-12">
+                        <a href="{{ route('servers.index') }}" class="btn btn-sm btn-outline-secondary">Сбросить фильтры</a>
+                        <span class="text-muted small ms-2">Найдено: {{ $servers->total() }}</span>
+                    </div>
+                @endif
+            </form>
+        </div>
+    </div>
+
     <div class="card shadow-sm">
         <div class="card-body p-0">
             <div class="table-responsive">
