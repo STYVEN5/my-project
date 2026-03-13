@@ -156,6 +156,15 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-md-12 mb-3">
+                        <label for="memo" class="form-label">Служебная записка</label>
+                        <textarea class="form-control @error('memo') is-invalid @enderror"
+                                  id="memo" name="memo" rows="4">{{ old('memo', $site->memo) }}</textarea>
+                        @error('memo')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                    </div>
+                </div>
+
             </form>
             <div class="d-flex justify-content-between mt-3">
                 <form action="{{ route('sites.destroy', $site) }}" method="POST" onsubmit="return confirm('Удалить сайт?')">
