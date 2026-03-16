@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Server;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 class ServerController extends Controller
@@ -38,6 +40,15 @@ class ServerController extends Controller
             'servers' => $servers,
             'filters' => $request->only(['search', 'type', 'status', 'provider']),
         ]);
+    }
+
+    public function pdf(): Response
+    {
+        $servers = Server::all();
+
+        return Pdf::loadView('pdf.servers', compact('servers'))
+            ->setPaper('a4', 'landscape')
+            ->download('servers_' . now()->format('Y-m-d') . '.pdf');
     }
 
     public function create(): View

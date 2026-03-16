@@ -16,5 +16,8 @@ Route::resource('users',        UserController::class);
 Route::resource('units',        UnitController::class);
 Route::resource('site-types',   SiteTypeController::class);
 Route::resource('technologies', TechnologyController::class);
+Route::get('servers/pdf', [ServerController::class, 'pdf'])->name('servers.pdf');
 Route::resource('servers',      ServerController::class);
+
+Route::get('sites/pdf', [SiteController::class, 'pdf'])->name('sites.pdf');
 Route::resource('sites',        SiteController::class);

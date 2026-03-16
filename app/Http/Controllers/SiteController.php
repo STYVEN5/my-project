@@ -8,8 +8,10 @@ use App\Models\SiteType;
 use App\Models\Technology;
 use App\Models\Unit;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\View\View;
 
 class SiteController extends Controller
@@ -51,6 +53,15 @@ class SiteController extends Controller
             'siteTypes' => SiteType::orderBy('name')->get(),
             'filters'   => $request->only(['search', 'unit_id', 'responsible_user_id', 'web_server_id', 'type_id']),
         ]);
+    }
+
+    public function pdf(): Response
+    {
+        $sites = Site::with(['type', 'unit', 'responsibleUser', 'webServer', 'dbServer'])->get();
+
+        return Pdf::loadView('pdf.sites', compact('sites'))
+            ->setPaper('a4', 'landscape')
+            ->download('sites_' . now()->format('Y-m-d') . '.pdf');
     }
 
     public function create(): View
