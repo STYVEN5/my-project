@@ -12,6 +12,40 @@
         </div>
     </div>
 
+    {{-- Фильтры --}}
+    <div class="card shadow-sm mb-3">
+        <div class="card-body">
+            <form method="GET" action="{{ route('users.index') }}" class="row g-2 align-items-end">
+                <div class="col-md-5">
+                    <label class="form-label small mb-1">Поиск (имя / email)</label>
+                    <input type="text" name="search" class="form-control form-control-sm"
+                           placeholder="Имя или email"
+                           value="{{ $filters['search'] ?? '' }}">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label small mb-1">Должность</label>
+                    <select name="role" class="form-select form-select-sm">
+                        <option value="">Все</option>
+                        @foreach ($roles as $role)
+                            <option value="{{ $role }}" @selected(($filters['role'] ?? '') === $role)>
+                                {{ $role }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-3 d-flex gap-1">
+                    <button type="submit" class="btn btn-sm btn-primary w-100">Найти</button>
+                </div>
+                @if (array_filter($filters))
+                    <div class="col-12">
+                        <a href="{{ route('users.index') }}" class="btn btn-sm btn-outline-secondary">Сбросить фильтры</a>
+                        <span class="text-muted small ms-2">Найдено: {{ $users->total() }}</span>
+                    </div>
+                @endif
+            </form>
+        </div>
+    </div>
+
     <div class="card shadow-sm">
         <div class="card-body p-0">
             <table class="table table-hover mb-0">

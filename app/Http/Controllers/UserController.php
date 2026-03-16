@@ -9,9 +9,30 @@ use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        return view('users.index', ['users' => User::paginate(20)]);
+        $query = User::query();
+
+        if ($search = $request->input('search')) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
+        if ($role = $request->input('role')) {
+            $query->where('role', $role);
+        }
+
+        $users = $query->paginate(20)->withQueryString();
+
+        $roles = User::select('role')->distinct()->whereNotNull('role')->orderBy('role')->pluck('role');
+
+        return view('users.index', [
+            'users'   => $users,
+            'roles'   => $roles,
+            'filters' => $request->only(['search', 'role']),
+        ]);
     }
 
     public function create(): View
