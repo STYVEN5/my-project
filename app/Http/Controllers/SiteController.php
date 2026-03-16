@@ -40,6 +40,7 @@ class SiteController extends Controller
             'server_path'         => 'nullable|string|max:255',
             'database_name'       => 'nullable|string|max:100',
             'database_username'   => 'nullable|string|max:100',
+            'memo'                => 'nullable|string',
             'technology_ids'      => 'nullable|array',
             'technology_ids.*'    => 'exists:technologies,id',
         ]);
@@ -79,6 +80,7 @@ class SiteController extends Controller
             'server_path'         => 'nullable|string|max:255',
             'database_name'       => 'nullable|string|max:100',
             'database_username'   => 'nullable|string|max:100',
+            'memo'                => 'nullable|string',
             'technology_ids'      => 'nullable|array',
             'technology_ids.*'    => 'exists:technologies,id',
         ]);
