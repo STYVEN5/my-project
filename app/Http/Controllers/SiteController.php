@@ -8,7 +8,9 @@ use App\Models\SiteType;
 use App\Models\Technology;
 use App\Models\Unit;
 use App\Models\User;
+use App\Services\WebServerDetector;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -144,6 +146,29 @@ class SiteController extends Controller
         $site->delete();
 
         return redirect()->route('sites.index');
+    }
+
+    public function detectWebServer(Request $request): JsonResponse
+    {
+        $url = $request->validate(['url' => 'required|url'])['url'];
+
+        $detector = new WebServerDetector();
+
+        $ip = $detector->resolveIp($url);
+
+        if (!$ip) {
+            return response()->json(['error' => 'Не удалось определить IP-адрес домена.'], 422);
+        }
+
+        $server = Server::where('type', 'WEB')->where('ip_address', $ip)->first();
+        $header = $detector->detectServerHeader($url);
+
+        return response()->json([
+            'ip'          => $ip,
+            'header'      => $header,
+            'server_id'   => $server?->id,
+            'server_name' => $server?->name,
+        ]);
     }
 
     private function formData(): array
