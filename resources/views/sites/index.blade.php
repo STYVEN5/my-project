@@ -25,7 +25,7 @@
                 </div>
                 <div class="col-md-2">
                     <label class="form-label small mb-1">Подразделение</label>
-                    <select name="unit_id" class="form-select form-select-sm">
+                    <select name="unit_id" id="filter-unit" class="form-select form-select-sm">
                         <option value="">Все</option>
                         @foreach ($units as $unit)
                             <option value="{{ $unit->id }}" @selected(($filters['unit_id'] ?? '') == $unit->id)>
@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-md-2">
                     <label class="form-label small mb-1">Ответственный</label>
-                    <select name="responsible_user_id" class="form-select form-select-sm">
+                    <select name="responsible_user_id" id="filter-user" class="form-select form-select-sm">
                         <option value="">Все</option>
                         @foreach ($users as $user)
                             <option value="{{ $user->id }}" @selected(($filters['responsible_user_id'] ?? '') == $user->id)>
@@ -47,7 +47,7 @@
                 </div>
                 <div class="col-md-2">
                     <label class="form-label small mb-1">Веб-сервер</label>
-                    <select name="web_server_id" class="form-select form-select-sm">
+                    <select name="web_server_id" id="filter-server" class="form-select form-select-sm">
                         <option value="">Все</option>
                         @foreach ($servers as $server)
                             <option value="{{ $server->id }}" @selected(($filters['web_server_id'] ?? '') == $server->id)>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="col-md-2">
                     <label class="form-label small mb-1">Тип</label>
-                    <select name="type_id" class="form-select form-select-sm">
+                    <select name="type_id" id="filter-type" class="form-select form-select-sm">
                         <option value="">Все</option>
                         @foreach ($siteTypes as $type)
                             <option value="{{ $type->id }}" @selected(($filters['type_id'] ?? '') == $type->id)>
@@ -130,3 +130,13 @@
         {{ $sites->links() }}
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    const tsOptions = { placeholder: 'Все', allowEmptyOption: true };
+    new TomSelect('#filter-unit',   tsOptions);
+    new TomSelect('#filter-user',   tsOptions);
+    new TomSelect('#filter-server', tsOptions);
+    new TomSelect('#filter-type',   tsOptions);
+</script>
+@endpush

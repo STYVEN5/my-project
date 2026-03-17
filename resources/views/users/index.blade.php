@@ -24,7 +24,7 @@
                 </div>
                 <div class="col-md-4">
                     <label class="form-label small mb-1">Должность</label>
-                    <select name="role" class="form-select form-select-sm">
+                    <select name="role" id="filter-role" class="form-select form-select-sm">
                         <option value="">Все</option>
                         @foreach ($roles as $role)
                             <option value="{{ $role }}" @selected(($filters['role'] ?? '') === $role)>
@@ -88,3 +88,9 @@
         {{ $users->links() }}
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    new TomSelect('#filter-role', { placeholder: 'Все', allowEmptyOption: true });
+</script>
+@endpush
