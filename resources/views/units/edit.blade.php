@@ -17,6 +17,16 @@
                            id="name" name="name" value="{{ old('name', $unit->name) }}" required>
                     @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
+                <div class="mb-3">
+                    <label for="parent_id" class="form-label">Родительское подразделение</label>
+                    <select class="form-select @error('parent_id') is-invalid @enderror" id="parent_id" name="parent_id">
+                        <option value="">— нет (корневое) —</option>
+                        @foreach ($allUnits as $u)
+                            <option value="{{ $u->id }}" @selected(old('parent_id', $unit->parent_id) == $u->id)>{{ $u->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('parent_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                </div>
             </form>
             <div class="d-flex justify-content-between mt-3">
                 <form action="{{ route('units.destroy', $unit) }}" method="POST" onsubmit="return confirm('Удалить подразделение?')">

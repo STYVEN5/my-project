@@ -8,6 +8,7 @@
             <h1>Подразделения</h1>
         </div>
         <div class="col-md-6 text-end">
+            <a href="{{ route('units.structure') }}" class="btn btn-outline-secondary me-2">Структура</a>
             <a href="{{ route('units.create') }}" class="btn btn-primary">Добавить подразделение</a>
         </div>
     </div>

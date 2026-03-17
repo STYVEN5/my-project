@@ -13,6 +13,7 @@ Route::get('/', function () {
 });
 
 Route::resource('users',        UserController::class);
+Route::get('units/structure', [UnitController::class, 'structure'])->name('units.structure');
 Route::resource('units',        UnitController::class);
 Route::resource('site-types',   SiteTypeController::class);
 Route::resource('technologies', TechnologyController::class);

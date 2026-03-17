@@ -16,6 +16,16 @@
                            id="name" name="name" value="{{ old('name') }}" required>
                     @error('name')<div class="invalid-feedback">{{ $message }}</div>@enderror
                 </div>
+                <div class="mb-3">
+                    <label for="parent_id" class="form-label">Родительское подразделение</label>
+                    <select class="form-select @error('parent_id') is-invalid @enderror" id="parent_id" name="parent_id">
+                        <option value="">— нет (корневое) —</option>
+                        @foreach ($allUnits as $u)
+                            <option value="{{ $u->id }}" @selected(old('parent_id') == $u->id)>{{ $u->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('parent_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                </div>
                 <div class="d-flex justify-content-end">
                     <a href="{{ route('units.index') }}" class="btn btn-secondary me-2">Отмена</a>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
