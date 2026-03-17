@@ -16,13 +16,15 @@ class UnitController extends Controller
 
     public function create(): View
     {
-        return view('units.create');
+        $allUnits = Unit::orderBy('name')->get();
+        return view('units.create', ['allUnits' => $allUnits]);
     }
 
     public function store(Request $request): RedirectResponse
     {
         $data = $request->validate([
-            'name' => 'required|string|max:150|unique:units',
+            'name'      => 'required|string|max:150|unique:units',
+            'parent_id' => 'nullable|integer|exists:units,id',
         ]);
 
         Unit::create($data);
@@ -37,13 +39,15 @@ class UnitController extends Controller
 
     public function edit(Unit $unit): View
     {
-        return view('units.edit', ['unit' => $unit]);
+        $allUnits = Unit::where('id', '!=', $unit->id)->orderBy('name')->get();
+        return view('units.edit', ['unit' => $unit, 'allUnits' => $allUnits]);
     }
 
     public function update(Request $request, Unit $unit): RedirectResponse
     {
         $data = $request->validate([
-            'name' => 'required|string|max:150|unique:units,name,' . $unit->id,
+            'name'      => 'required|string|max:150|unique:units,name,' . $unit->id,
+            'parent_id' => 'nullable|integer|exists:units,id',
         ]);
 
         $unit->update($data);
@@ -56,5 +60,15 @@ class UnitController extends Controller
         $unit->delete();
 
         return redirect()->route('units.index');
+    }
+
+    public function structure(): View
+    {
+        $roots = Unit::with('children.children.children.children')
+            ->whereNull('parent_id')
+            ->orderBy('name')
+            ->get();
+
+        return view('units.structure', ['roots' => $roots]);
     }
 }
