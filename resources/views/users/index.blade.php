@@ -28,17 +28,9 @@
                     @forelse ($users as $user)
                         <tr>
                             <td>{{ $user->id }}</td>
-                            <td>{{ $user->name }}</td>
+                            <td><a href="{{ route('users.show', $user) }}"><strong>{{ $user->name }}</strong></a></td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->role }}</td>
-                            <td class="text-end">
-                                <a href="{{ route('users.edit', $user) }}" class="btn btn-sm btn-outline-secondary">Редактировать</a>
-                                <form action="{{ route('users.destroy', $user) }}" method="POST" class="d-inline" onsubmit="return confirm('Удалить сотрудника?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>
-                                </form>
-                            </td>
                         </tr>
                     @empty
                         <tr>

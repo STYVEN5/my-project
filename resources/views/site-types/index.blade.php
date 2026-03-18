@@ -26,15 +26,7 @@
                     @forelse ($siteTypes as $siteType)
                         <tr>
                             <td>{{ $siteType->id }}</td>
-                            <td>{{ $siteType->name }}</td>
-                            <td class="text-end">
-                                <a href="{{ route('site-types.edit', $siteType) }}" class="btn btn-sm btn-outline-secondary">Редактировать</a>
-                                <form action="{{ route('site-types.destroy', $siteType) }}" method="POST" class="d-inline" onsubmit="return confirm('Удалить тип?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>
-                                </form>
-                            </td>
+                            <td><a href="{{ route('site-types.show', $siteType) }}"><strong>{{ $siteType->name }}</strong></a></td>
                         </tr>
                     @empty
                         <tr>

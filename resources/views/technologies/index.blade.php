@@ -26,15 +26,7 @@
                     @forelse ($technologies as $technology)
                         <tr>
                             <td>{{ $technology->id }}</td>
-                            <td>{{ $technology->name }}</td>
-                            <td class="text-end">
-                                <a href="{{ route('technologies.edit', $technology) }}" class="btn btn-sm btn-outline-secondary">Редактировать</a>
-                                <form action="{{ route('technologies.destroy', $technology) }}" method="POST" class="d-inline" onsubmit="return confirm('Удалить технологию?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>
-                                </form>
-                            </td>
+                            <td><a href="{{ route('technologies.show', $technology) }}"><strong>{{ $technology->name }}</strong></a></td>
                         </tr>
                     @empty
                         <tr>

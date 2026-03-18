@@ -32,7 +32,7 @@
                         @forelse ($servers as $server)
                             <tr>
                                 <td>{{ $server->id }}</td>
-                                <td><strong>{{ $server->name }}</strong></td>
+                                <td><a href="{{ route('servers.show', $server) }}"><strong>{{ $server->name }}</strong></a></td>
                                 <td>{{ $server->ip_address }}</td>
                                 <td>{{ $server->type }}</td>
                                 <td>{{ $server->os_name ?? '—' }}</td>
@@ -47,14 +47,6 @@
                                     @else
                                         <span class="badge bg-secondary">—</span>
                                     @endif
-                                </td>
-                                <td class="text-end">
-                                    <a href="{{ route('servers.edit', $server) }}" class="btn btn-sm btn-outline-secondary">Редактировать</a>
-                                    <form action="{{ route('servers.destroy', $server) }}" method="POST" class="d-inline" onsubmit="return confirm('Удалить сервер?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>
-                                    </form>
                                 </td>
                             </tr>
                         @empty

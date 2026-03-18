@@ -32,20 +32,12 @@
                         @forelse ($sites as $site)
                             <tr>
                                 <td>{{ $site->id }}</td>
-                                <td><strong>{{ $site->name }}</strong></td>
+                                <td><a href="{{ route('sites.show', $site) }}"><strong>{{ $site->name }}</strong></a></td>
                                 <td><a href="{{ $site->url }}" target="_blank">{{ $site->url }}</a></td>
                                 <td>{{ $site->type?->name ?? '—' }}</td>
                                 <td>{{ $site->unit?->name ?? '—' }}</td>
                                 <td>{{ $site->responsibleUser?->name ?? '—' }}</td>
                                 <td>{{ $site->webServer?->name ?? '—' }}</td>
-                                <td class="text-end">
-                                    <a href="{{ route('sites.edit', $site) }}" class="btn btn-sm btn-outline-secondary">Редактировать</a>
-                                    <form action="{{ route('sites.destroy', $site) }}" method="POST" class="d-inline" onsubmit="return confirm('Удалить сайт?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>
-                                    </form>
-                                </td>
                             </tr>
                         @empty
                             <tr>

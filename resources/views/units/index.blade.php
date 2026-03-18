@@ -26,15 +26,7 @@
                     @forelse ($units as $unit)
                         <tr>
                             <td>{{ $unit->id }}</td>
-                            <td>{{ $unit->name }}</td>
-                            <td class="text-end">
-                                <a href="{{ route('units.edit', $unit) }}" class="btn btn-sm btn-outline-secondary">Редактировать</a>
-                                <form action="{{ route('units.destroy', $unit) }}" method="POST" class="d-inline" onsubmit="return confirm('Удалить подразделение?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>
-                                </form>
-                            </td>
+                            <td><a href="{{ route('units.show', $unit) }}"><strong>{{ $unit->name }}</strong></a></td>
                         </tr>
                     @empty
                         <tr>
