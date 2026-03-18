@@ -10,7 +10,7 @@ use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect()->route('sites.index');
+    return view('welcome');
 });
 
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
