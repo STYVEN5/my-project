@@ -6,7 +6,7 @@
     <h1 class="mb-3">Редактировать тип сайта</h1>
     <a href="{{ route('site-types.index') }}" class="btn btn-secondary mb-3">Назад к списку</a>
 
-    <div class="card shadow-sm" style="max-width: 500px;">
+    <div class="card shadow-sm card-max-w-500">
         <div class="card-body">
             <form id="update-form" action="{{ route('site-types.update', $siteType) }}" method="POST">
                 @csrf

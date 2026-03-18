@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Учёт сайтов')</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -14,13 +14,23 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="{{ route('sites.index') }}">Сайты</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('servers.index') }}">Серверы</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('units.index') }}">Подразделения</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('technologies.index') }}">Технологии</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('site-types.index') }}">Типы сайтов</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('users.index') }}">Сотрудники</a></li>
+                <ul class="navbar-nav ms-auto gap-2">
+                    @auth
+                        <li class="nav-item"><a class="btn btn-outline-light btn-sm" href="{{ route('sites.index') }}">Сайты</a></li>
+                        <li class="nav-item"><a class="btn btn-outline-light btn-sm" href="{{ route('servers.index') }}">Серверы</a></li>
+                        <li class="nav-item"><a class="btn btn-outline-light btn-sm" href="{{ route('units.index') }}">Подразделения</a></li>
+                        <li class="nav-item"><a class="btn btn-outline-light btn-sm" href="{{ route('technologies.index') }}">Технологии</a></li>
+                        <li class="nav-item"><a class="btn btn-outline-light btn-sm" href="{{ route('site-types.index') }}">Типы сайтов</a></li>
+                        <li class="nav-item"><a class="btn btn-outline-light btn-sm" href="{{ route('users.index') }}">Сотрудники</a></li>
+                        <li class="nav-item">
+                            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" class="btn btn-danger btn-sm">Выйти</button>
+                            </form>
+                        </li>
+                    @else
+                        <li class="nav-item"><a class="btn btn-primary btn-sm" href="{{ route('login') }}">Войти</a></li>
+                    @endauth
                 </ul>
             </div>
         </div>
@@ -40,6 +50,5 @@
         @yield('content')
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
