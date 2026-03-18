@@ -1,16 +1,17 @@
 @extends('layouts.app')
 
+@php
+$breadcrumbs = [
+    ['label' => 'Типы сайтов', 'url' => route('site-types.index')],
+    ['label' => $siteType->name]
+];
+@endphp
+
 @section('title', 'Просмотр типа сайта: ' . $siteType->name)
 
 @section('content')
     <div class="row mb-3">
         <div class="col-md-6">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('site-types.index') }}">Типы сайтов</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ $siteType->name }}</li>
-                </ol>
-            </nav>
             <h1>{{ $siteType->name }}</h1>
         </div>
         <div class="col-md-6 text-end">

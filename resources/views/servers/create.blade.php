@@ -1,5 +1,12 @@
 @extends('layouts.app')
 
+@php
+$breadcrumbs = [
+    ['label' => 'Серверы', 'url' => route('servers.index')],
+    ['label' => 'Добавить']
+];
+@endphp
+
 @section('title', 'Добавить сервер')
 
 @section('content')

@@ -47,6 +47,8 @@
             </div>
         @endif
 
+        @include('partials.breadcrumbs')
+
         @yield('content')
     </main>
 

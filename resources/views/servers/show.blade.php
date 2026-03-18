@@ -1,16 +1,17 @@
 @extends('layouts.app')
 
+@php
+$breadcrumbs = [
+    ['label' => 'Серверы', 'url' => route('servers.index')],
+    ['label' => $server->name]
+];
+@endphp
+
 @section('title', 'Просмотр сервера: ' . $server->name)
 
 @section('content')
     <div class="row mb-3">
         <div class="col-md-6">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('servers.index') }}">Серверы</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ $server->name }}</li>
-                </ol>
-            </nav>
             <h1>{{ $server->name }}</h1>
         </div>
         <div class="col-md-6 text-end">

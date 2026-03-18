@@ -1,5 +1,13 @@
 @extends('layouts.app')
 
+@php
+$breadcrumbs = [
+    ['label' => 'Подразделения', 'url' => route('units.index')],
+    ['label' => $unit->name, 'url' => route('units.show', $unit)],
+    ['label' => 'Редактировать']
+];
+@endphp
+
 @section('title', 'Редактировать подразделение')
 
 @section('content')

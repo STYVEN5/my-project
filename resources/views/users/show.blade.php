@@ -1,16 +1,17 @@
 @extends('layouts.app')
 
+@php
+$breadcrumbs = [
+    ['label' => 'Сотрудники', 'url' => route('users.index')],
+    ['label' => $user->name]
+];
+@endphp
+
 @section('title', 'Просмотр пользователя: ' . $user->name)
 
 @section('content')
     <div class="row mb-3">
         <div class="col-md-6">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('users.index') }}">Пользователи</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ $user->name }}</li>
-                </ol>
-            </nav>
             <h1>{{ $user->name }}</h1>
         </div>
         <div class="col-md-6 text-end">

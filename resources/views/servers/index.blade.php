@@ -1,5 +1,11 @@
 @extends('layouts.app')
 
+@php
+$breadcrumbs = [
+    ['label' => 'Серверы']
+];
+@endphp
+
 @section('title', 'Серверы')
 
 @section('content')

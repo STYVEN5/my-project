@@ -1,16 +1,17 @@
 @extends('layouts.app')
 
+@php
+$breadcrumbs = [
+    ['label' => 'Сайты', 'url' => route('sites.index')],
+    ['label' => $site->name]
+];
+@endphp
+
 @section('title', 'Просмотр сайта: ' . $site->name)
 
 @section('content')
     <div class="row mb-3">
         <div class="col-md-6">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('sites.index') }}">Сайты</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ $site->name }}</li>
-                </ol>
-            </nav>
             <h1>{{ $site->name }}</h1>
         </div>
         <div class="col-md-6 text-end">

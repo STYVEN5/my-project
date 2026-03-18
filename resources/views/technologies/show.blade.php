@@ -1,16 +1,17 @@
 @extends('layouts.app')
 
+@php
+$breadcrumbs = [
+    ['label' => 'Технологии', 'url' => route('technologies.index')],
+    ['label' => $technology->name]
+];
+@endphp
+
 @section('title', 'Просмотр технологии: ' . $technology->name)
 
 @section('content')
     <div class="row mb-3">
         <div class="col-md-6">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('technologies.index') }}">Технологии</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">{{ $technology->name }}</li>
-                </ol>
-            </nav>
             <h1>{{ $technology->name }}</h1>
         </div>
         <div class="col-md-6 text-end">
