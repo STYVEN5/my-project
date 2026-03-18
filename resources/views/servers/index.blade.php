@@ -25,7 +25,7 @@
                 </div>
                 <div class="col-md-2">
                     <label class="form-label small mb-1">Тип</label>
-                    <select name="type" class="form-select form-select-sm">
+                    <select name="type" id="filter-type" class="form-select form-select-sm">
                         <option value="">Все</option>
                         <option value="WEB"      @selected(($filters['type'] ?? '') === 'WEB')>WEB</option>
                         <option value="DATABASE" @selected(($filters['type'] ?? '') === 'DATABASE')>DATABASE</option>
@@ -33,7 +33,7 @@
                 </div>
                 <div class="col-md-2">
                     <label class="form-label small mb-1">Статус</label>
-                    <select name="status" class="form-select form-select-sm">
+                    <select name="status" id="filter-status" class="form-select form-select-sm">
                         <option value="">Все</option>
                         <option value="ACTIVE"          @selected(($filters['status'] ?? '') === 'ACTIVE')>Активен</option>
                         <option value="MAINTENANCE"     @selected(($filters['status'] ?? '') === 'MAINTENANCE')>Обслуживание</option>
@@ -119,3 +119,11 @@
         {{ $servers->links() }}
     </div>
 @endsection
+
+@push('scripts')
+<script>
+    const tsOptions = { placeholder: 'Все', allowEmptyOption: true, controlInput: null };
+    new TomSelect('#filter-type',   tsOptions);
+    new TomSelect('#filter-status', tsOptions);
+</script>
+@endpush
