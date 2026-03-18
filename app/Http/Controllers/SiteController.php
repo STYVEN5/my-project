@@ -14,11 +14,46 @@ use Illuminate\View\View;
 
 class SiteController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
+        $sites = $this->buildFilteredQuery($request)->paginate(20);
+
         return view('sites.index', [
-            'sites' => Site::with(['type', 'unit', 'responsibleUser', 'webServer', 'dbServer'])->paginate(20),
+            'sites' => $sites->appends($request->all()),
+            'siteTypes' => SiteType::all(),
+            'units' => Unit::all()
         ]);
+    }
+
+    public function exportPdf(Request $request)
+    {
+        $sites = $this->buildFilteredQuery($request)->get();
+        
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('sites.pdf', compact('sites'));
+        
+        return $pdf->download('sites.pdf');
+    }
+
+    private function buildFilteredQuery(Request $request)
+    {
+        $query = Site::with(['type', 'unit', 'responsibleUser', 'webServer', 'dbServer']);
+
+        if ($request->filled('search')) {
+            $query->where(function($q) use ($request) {
+                $q->where('name', 'like', '%' . $request->search . '%')
+                  ->orWhere('url', 'like', '%' . $request->search . '%');
+            });
+        }
+
+        if ($request->filled('type_id')) {
+            $query->where('type_id', $request->type_id);
+        }
+
+        if ($request->filled('unit_id')) {
+            $query->where('unit_id', $request->unit_id);
+        }
+
+        return $query;
     }
 
     public function create(): View

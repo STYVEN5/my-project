@@ -6,7 +6,7 @@
     <h1 class="mb-3">Добавить сотрудника</h1>
     <a href="{{ route('users.index') }}" class="btn btn-secondary mb-3">Назад к списку</a>
 
-    <div class="card shadow-sm" style="max-width: 600px;">
+    <div class="card shadow-sm card-max-w-600">
         <div class="card-body">
             <form action="{{ route('users.store') }}" method="POST">
                 @csrf
