@@ -122,7 +122,7 @@
 
 @push('scripts')
 <script>
-    const tsOptions = { placeholder: 'Все', allowEmptyOption: true };
+    const tsOptions = { placeholder: 'Все', allowEmptyOption: true, controlInput: null };
     new TomSelect('#filter-type',   tsOptions);
     new TomSelect('#filter-status', tsOptions);
 </script>

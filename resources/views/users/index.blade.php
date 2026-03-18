@@ -91,6 +91,6 @@
 
 @push('scripts')
 <script>
-    new TomSelect('#filter-role', { placeholder: 'Все', allowEmptyOption: true });
+    new TomSelect('#filter-role', { placeholder: 'Все', allowEmptyOption: true, controlInput: null });
 </script>
 @endpush

@@ -134,9 +134,10 @@
 @push('scripts')
 <script>
     const tsOptions = { placeholder: 'Все', allowEmptyOption: true };
+    const tsOptionsNoSearch = { placeholder: 'Все', allowEmptyOption: true, controlInput: null };
     new TomSelect('#filter-unit',   tsOptions);
     new TomSelect('#filter-user',   tsOptions);
     new TomSelect('#filter-server', tsOptions);
-    new TomSelect('#filter-type',   tsOptions);
+    new TomSelect('#filter-type',   tsOptionsNoSearch);
 </script>
 @endpush
