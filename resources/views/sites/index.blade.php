@@ -55,7 +55,6 @@
                             <th>Подразделение</th>
                             <th>Ответственный</th>
                             <th>Веб-сервер</th>
-                            <th class="text-end">Действия</th>
                         </tr>
                     </thead>
                     <tbody>
