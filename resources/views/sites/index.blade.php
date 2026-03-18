@@ -3,12 +3,42 @@
 @section('title', 'Список сайтов')
 
 @section('content')
-    <div class="row mb-3">
+    <div class="row mb-4 align-items-center">
         <div class="col-md-6">
             <h1>Список сайтов</h1>
         </div>
         <div class="col-md-6 text-end">
+            <a href="{{ route('sites.pdf', request()->all()) }}" class="btn btn-outline-danger me-2">Экспорт в PDF</a>
             <a href="{{ route('sites.create') }}" class="btn btn-primary">Добавить сайт</a>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <form action="{{ route('sites.index') }}" method="GET" class="row g-3">
+                <div class="col-md-4">
+                    <input type="text" name="search" class="form-control" placeholder="Поиск по названию или URL..." value="{{ request('search') }}">
+                </div>
+                <div class="col-md-3">
+                    <select name="type_id" class="form-select">
+                        <option value="">Все типы</option>
+                        @foreach($siteTypes as $type)
+                            <option value="{{ $type->id }}" {{ request('type_id') == $type->id ? 'selected' : '' }}>{{ $type->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <select name="unit_id" class="form-select">
+                        <option value="">Все подразделения</option>
+                        @foreach($units as $unit)
+                            <option value="{{ $unit->id }}" {{ request('unit_id') == $unit->id ? 'selected' : '' }}>{{ $unit->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-secondary w-100">Фильтровать</button>
+                </div>
+            </form>
         </div>
     </div>
 

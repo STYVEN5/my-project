@@ -18,6 +18,7 @@ Route::post('login', [LoginController::class, 'login']);
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
+    Route::get('sites/pdf',         [SiteController::class, 'exportPdf'])->name('sites.pdf');
     Route::resource('users',        UserController::class);
     Route::resource('units',        UnitController::class);
     Route::resource('site-types',   SiteTypeController::class);
