@@ -85,15 +85,23 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="web_server_id" class="form-label">Веб-сервер</label>
-                        <select class="form-select @error('web_server_id') is-invalid @enderror" id="web_server_id" name="web_server_id">
-                            <option value="">— не выбрано —</option>
-                            @foreach ($servers as $server)
-                                <option value="{{ $server->id }}" {{ old('web_server_id', $site->web_server_id) == $server->id ? 'selected' : '' }}>
-                                    {{ $server->name }} ({{ $server->ip_address }})
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('web_server_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        <div class="input-group">
+                            <select class="form-select @error('web_server_id') is-invalid @enderror" id="web_server_id" name="web_server_id">
+                                <option value="">— не выбрано —</option>
+                                @foreach ($servers as $server)
+                                    <option value="{{ $server->id }}" {{ old('web_server_id', $site->web_server_id) == $server->id ? 'selected' : '' }}>
+                                        {{ $server->name }} ({{ $server->ip_address }})
+                                    </option>
+                                @endforeach
+                            </select>
+                            <button type="button" class="btn btn-outline-secondary" id="detect-webserver-btn"
+                                    title="Определить веб-сервер по URL">
+                                <span id="detect-btn-text">Определить</span>
+                                <span id="detect-btn-spinner" class="spinner-border spinner-border-sm d-none" role="status"></span>
+                            </button>
+                        </div>
+                        @error('web_server_id')<div class="invalid-feedback d-block">{{ $message }}</div>@enderror
+                        <div id="detect-result" class="form-text"></div>
                     </div>
                 </div>
 
@@ -179,4 +187,62 @@
             </div>
         </div>
     </div>
+@push('scripts')
+<script>
+document.getElementById('detect-webserver-btn').addEventListener('click', function () {
+    const url = document.getElementById('url').value.trim();
+    if (!url) {
+        showDetectResult('Сначала укажите URL сайта.', 'text-warning');
+        return;
+    }
+
+    const btn     = this;
+    const spinner = document.getElementById('detect-btn-spinner');
+    const btnText = document.getElementById('detect-btn-text');
+    const resultEl = document.getElementById('detect-result');
+
+    btn.disabled = true;
+    spinner.classList.remove('d-none');
+    btnText.textContent = 'Определяем…';
+    resultEl.textContent = '';
+    resultEl.className = 'form-text';
+
+    fetch('{{ route('sites.detect-webserver') }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content
+                         || document.querySelector('input[name="_token"]').value,
+        },
+        body: JSON.stringify({ url }),
+    })
+    .then(r => r.json().then(data => ({ ok: r.ok, data })))
+    .then(({ ok, data }) => {
+        if (!ok) {
+            showDetectResult(data.error || 'Ошибка при определении.', 'text-danger');
+            return;
+        }
+
+        if (data.server_id) {
+            document.getElementById('web_server_id').value = data.server_id;
+            showDetectResult(`IP: ${data.ip} → выбран сервер «${data.server_name}»`, 'text-success');
+        } else {
+            showDetectResult(`IP: ${data.ip} — совпадений в базе не найдено`, 'text-info');
+        }
+    })
+    .catch(() => showDetectResult('Сетевая ошибка при запросе.', 'text-danger'))
+    .finally(() => {
+        btn.disabled = false;
+        spinner.classList.add('d-none');
+        btnText.textContent = 'Определить';
+    });
+
+    function showDetectResult(msg, cls) {
+        resultEl.textContent = msg;
+        resultEl.className = 'form-text ' + cls;
+    }
+});
+</script>
+@endpush
+
 @endsection

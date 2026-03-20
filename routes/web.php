@@ -20,4 +20,5 @@ Route::get('servers/pdf', [ServerController::class, 'pdf'])->name('servers.pdf')
 Route::resource('servers',      ServerController::class);
 
 Route::get('sites/pdf', [SiteController::class, 'pdf'])->name('sites.pdf');
+Route::post('sites/detect-webserver', [SiteController::class, 'detectWebServer'])->name('sites.detect-webserver');
 Route::resource('sites',        SiteController::class);
