@@ -161,11 +161,9 @@ class SiteController extends Controller
         }
 
         $server = Server::where('type', 'WEB')->where('ip_address', $ip)->first();
-        $header = $detector->detectServerHeader($url);
 
         return response()->json([
             'ip'          => $ip,
-            'header'      => $header,
             'server_id'   => $server?->id,
             'server_name' => $server?->name,
         ]);

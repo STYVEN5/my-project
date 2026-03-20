@@ -46,7 +46,6 @@ class DetectSiteWebServers extends Command
             }
 
             $server = Server::where('type', 'WEB')->where('ip_address', $ip)->first();
-            $header = $detector->detectServerHeader($site->url) ?? '—';
 
             $status = 'Совпадений нет';
             if ($server) {
@@ -57,11 +56,11 @@ class DetectSiteWebServers extends Command
                 }
             }
 
-            $rows[] = [$site->id, $site->url, $ip, $header, $server?->name ?? '—', $status];
+            $rows[] = [$site->id, $site->url, $ip, $server?->name ?? '—', $status];
         });
 
         $this->newLine(2);
-        $this->table(['ID', 'URL', 'IP', 'Server Header', 'Сервер в БД', 'Статус'], $rows);
+        $this->table(['ID', 'URL', 'IP', 'Сервер в БД', 'Статус'], $rows);
 
         if ($autoUpdate) {
             $this->info("Обновлено записей: {$updated}");

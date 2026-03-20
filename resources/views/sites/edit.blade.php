@@ -223,12 +223,11 @@ document.getElementById('detect-webserver-btn').addEventListener('click', functi
             return;
         }
 
-        const info = `IP: ${data.ip}` + (data.header ? ` · ${data.header}` : '');
         if (data.server_id) {
             document.getElementById('web_server_id').value = data.server_id;
-            showDetectResult(`${info} → выбран сервер «${data.server_name}»`, 'text-success');
+            showDetectResult(`IP: ${data.ip} → выбран сервер «${data.server_name}»`, 'text-success');
         } else {
-            showDetectResult(`${info} — совпадений в базе не найдено`, 'text-info');
+            showDetectResult(`IP: ${data.ip} — совпадений в базе не найдено`, 'text-info');
         }
     })
     .catch(() => showDetectResult('Сетевая ошибка при запросе.', 'text-danger'))
